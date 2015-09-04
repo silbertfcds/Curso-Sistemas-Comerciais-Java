@@ -7,19 +7,6 @@ body {
 	font-weight: normal;
 }
 
-h1{
-	font-size: 24px;
-	font-weight: 500;
-	padding: 0px;
-	margin: opx;
-}
-
-.rotulo{
-	width: 150px
-}
-.ui-panelgrid td{
-	height: 34px
-}
 header {
 	padding: 5px 0px;
 	margin-bottom: 20px;
@@ -36,36 +23,76 @@ header > div {
 }
 
 #conteudo {
-	padding: 0px 8px;
+	padding: 0px 8px
 }
 
-#login-dialog{
+footer {
+	padding: 0px 8px;
+	margin-bottom: 10px
+}
+
+h1 {
+	font-size: 24px;
+	font-weight: 500;
+	padding: 0px;
+	margin: 0px
+}
+
+#login-dialog {
 	width: 290px;
 	margin: auto;
 	margin-top: 150px;
 }
-.grid-login{
+
+.grid-login {
 	background-color: #f2f2f2;
 	border-radius: 8px;
-	border:  1px solid #ccc;
+	border: 1px solid #ccc;
 	margin-top: 8px;
-	padding: 10px;
+	padding: 10px
 }
-.ajax-status{
+
+.rotulo {
+	width: 150px
+}
+
+.ui-panelgrid td {
+	height: 34px
+}
+
+.ajax-status {
 	position: fixed;
 	top: 55px;
 	right: 10px;
 	width: 35px;
 	height: 35px
 }
-.meu-radio .ui-radiobutton {
-	margin-left: 40px;
+
+.ui-selectmanycheckbox td {
+	border-width: 0px !important;
+	padding: 0px !important;
 }
 
-.meu-radio td:first-child .ui-radiobutton {
-	margin-left: 0px;
+.ui-selectmanycheckbox td label {
+	padding-right: 10px;
 }
-footer {
-	padding: 0px 8px;
-	margin-bottom: 10px
+
+
+
+/* Customiza TabView - início */
+.ui-tabs .ui-tabs-panel {
+    padding: 0.5em 0.2em !important;
 }
+
+.ui-tabs {
+    padding: 0px !important;
+}
+
+.ui-tabs .ui-tabs-nav {
+    margin: -1px !important;
+}
+
+.ui-tabs.ui-tabs-top > .ui-tabs-nav {
+    padding: 0px !important;
+}
+/* Customiza TabView - fim */

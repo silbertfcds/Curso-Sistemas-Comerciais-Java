@@ -16,7 +16,7 @@
 				<p:commandButton value="Salvar" id="botaoSalvar"/>
 			</p:toolbarGroup>
 			<p:toolbarGroup align="right">
-				<p:button value="Pesquisa"/>
+				<p:button value="Pesquisa" outcome="/clientes/PesquisaCliente"/>
 			</p:toolbarGroup>
 		</p:toolbar>
 		
@@ -40,6 +40,35 @@
 			<p:outputLabel value="E-mail" for="email"/>
 			<p:inputText id="email" size="40" maxlength="60"/>
 		</p:panelGrid>
-	</ui:define>
 
+		<p:commandButton value="Adicionar endereço" style="margin-top: 20px"/>
+
+		<p:dataTable id="pedidosTable"
+			value="#{pesquisaUsuariosBean.usuariosFiltrados}" var="usuario"
+			style="margin-top: 20px" emptyMessage="Nenhum usuário encontrado."
+			rows="3" paginator="true" paginatorAlwaysVisible="false"
+			paginatorPosition="bottom">
+
+			<p:column headerText="Logradouro" style="text-align: left">
+				<h:outputText value="Rua das Pedras Grandes Azuis" />
+			</p:column>
+			<p:column headerText="Número" style="text-align: left; width: 80px">
+				<h:outputText value="1234" />
+			</p:column>
+			<p:column headerText="Complemento" style="text-align: left; width: 200px">
+				<h:outputText value="Ap 1022" />
+			</p:column>
+			<p:column headerText="CEP" style="text-align: left; width: 80px">
+				<h:outputText value="38499-533" />
+			</p:column>
+			<p:column headerText="Cidade/UF" style="text-align: left; width: 100px">
+				<h:outputText value="Uberlândia/MG" />
+			</p:column>
+			<p:column style="text-align: center; width: 70px">
+				<p:button icon="ui-icon-pencil" title="Editar" />
+				<p:commandButton icon="ui-icon-trash" title="Excluir" />
+			</p:column>
+		</p:dataTable>
+
+	</ui:define>
 </ui:composition>

@@ -16,7 +16,7 @@
 				<p:commandButton value="Salvar" id="botaoSalvar"/>
 			</p:toolbarGroup>
 			<p:toolbarGroup align="right">
-				<p:button value="Pesquisa"/>
+				<p:button value="Pesquisa" outcome="/usuarios/PesquisaUsuarios"/>
 			</p:toolbarGroup>
 		</p:toolbar>
 		
@@ -30,7 +30,25 @@
 			
 			<p:outputLabel value="Senha" for="senha"/>
 			<p:password id="senha"/>
+			
+			<p:selectOneMenu>
+				<f:selectItem itemLabel="Administradores" />
+			</p:selectOneMenu>
+			<p:commandButton value="Adicionar grupo"/>
+			
 		</p:panelGrid>
+		
+		<p:dataTable id="pedidosTable" value="#{pesquisaUsuariosBean.usuariosFiltrados}" var="usuario"
+	    		style="margin-top: 20px" emptyMessage="Nenhum grupo encontrado."
+	    		rows="3" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+	    	
+	    		<p:column headerText="Grupo" style="text-align: left">
+	    			<h:outputText value="Auxiliares"/>
+	    		</p:column>	    		
+	    		<p:column style="text-align: center; width: 70px">
+	    			<p:commandButton icon="ui-icon-trash" title="Excluir"/>    			
+	    		</p:column>
+	    	</p:dataTable>
+		
 	</ui:define>
-
 </ui:composition>
