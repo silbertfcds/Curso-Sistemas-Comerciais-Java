@@ -32,7 +32,7 @@
 	    	</p:panelGrid>
 	    	
 	    	<p:dataTable id="pedidosTable" value="#{pesquisaClientesBean.clientesFiltrados}" var="cliente"
-	    		style="margin-top: 20px" emptyMessage="Nenhum pedido encontrado."
+	    		style="margin-top: 20px" emptyMessage="Nenhum cliente encontrado."
 	    		rows="3" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
 	    	
 	    		<p:column headerText="Nome" style="text-align: left">
@@ -47,11 +47,20 @@
 	    		<p:column style="text-align: center; width: 70px">
 	    			
 	    			<p:button icon="ui-icon-pencil" title="Editar"/>
-	    			<p:commandButton icon="ui-icon-trash" title="Excluir"/>
+	    			<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="PF('confirmacao').show()"/>
 	    			
 	    		</p:column>
 	    	</p:dataTable>
-	    	
-    	</h:form>
+
+			<p:confirmDialog header="Exclusão de cliente"
+				message="Tem certeza que deseja excluir o cliente"
+				widgetVar="confirmacao">
+				<p:button value="Não"
+					onclick="PF('confirmacao').hide(); return false;" />
+				<p:commandButton value="Sim"
+					oncomplete="PF('confirmacao').hide(); return false;" />
+			</p:confirmDialog>
+
+		</h:form>
     </ui:define>
 </ui:composition>

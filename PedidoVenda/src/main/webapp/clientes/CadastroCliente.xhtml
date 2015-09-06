@@ -8,67 +8,122 @@
 	<ui:define name="titulo">Novo cliente</ui:define>
 
 	<ui:define name="corpo">
-		<h1>Novo Cliente</h1>
-		
-		<p:toolbar style="margin-top: 20px">
-			<p:toolbarGroup>
-				<p:button value="Novo" outcome="/clientes/CadastroCliente"/>
-				<p:commandButton value="Salvar" id="botaoSalvar"/>
-			</p:toolbarGroup>
-			<p:toolbarGroup align="right">
-				<p:button value="Pesquisa" outcome="/clientes/PesquisaCliente"/>
-			</p:toolbarGroup>
-		</p:toolbar>
-		
-		<p:panelGrid columns="2" columnClasses="rotulo, campo" id="painel" style="width: 100%; margin-top: 20px">
-			
-			<p:outputLabel value="Nome" for="nome"/>
-			<p:inputText id="nome" size="60" maxlength="80"/>
-			
-			<p:outputLabel value="Tipo" for="tipo"/>
-			<h:panelGroup>
-				<p:selectOneRadio id="tipo" styleClass="meu-radio"
-					required="true">
-					<f:selectItem itemLabel="Física" itemValue="Fisica"/> 
-					<f:selectItem itemLabel="Juridica" itemValue="Juridica"/>
-				</p:selectOneRadio>
-			</h:panelGroup>
-			
-			<p:outputLabel value="CNPJ" for="cnpj"/>
-			<p:inputText id="cnpj" size="20" maxlength="30"/>
-			
-			<p:outputLabel value="E-mail" for="email"/>
-			<p:inputText id="email" size="40" maxlength="60"/>
-		</p:panelGrid>
+		<h:form>
+			<h1>Novo Cliente</h1>
 
-		<p:commandButton value="Adicionar endereço" style="margin-top: 20px"/>
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/clientes/CadastroCliente" />
+					<p:commandButton value="Salvar" id="botaoSalvar" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/clientes/PesquisaCliente" />
+				</p:toolbarGroup>
+			</p:toolbar>
 
-		<p:dataTable id="pedidosTable"
-			value="#{pesquisaUsuariosBean.usuariosFiltrados}" var="usuario"
-			style="margin-top: 20px" emptyMessage="Nenhum usuário encontrado."
-			rows="3" paginator="true" paginatorAlwaysVisible="false"
-			paginatorPosition="bottom">
+			<p:panelGrid columns="2" columnClasses="rotulo, campo" id="painel"
+				style="width: 100%; margin-top: 20px">
 
-			<p:column headerText="Logradouro" style="text-align: left">
-				<h:outputText value="Rua das Pedras Grandes Azuis" />
-			</p:column>
-			<p:column headerText="Número" style="text-align: left; width: 80px">
-				<h:outputText value="1234" />
-			</p:column>
-			<p:column headerText="Complemento" style="text-align: left; width: 200px">
-				<h:outputText value="Ap 1022" />
-			</p:column>
-			<p:column headerText="CEP" style="text-align: left; width: 80px">
-				<h:outputText value="38499-533" />
-			</p:column>
-			<p:column headerText="Cidade/UF" style="text-align: left; width: 100px">
-				<h:outputText value="Uberlândia/MG" />
-			</p:column>
-			<p:column style="text-align: center; width: 70px">
-				<p:button icon="ui-icon-pencil" title="Editar" />
-				<p:commandButton icon="ui-icon-trash" title="Excluir" />
-			</p:column>
-		</p:dataTable>
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" size="60" maxlength="80" />
 
+				<p:outputLabel value="Tipo" for="tipo" />
+				<h:panelGroup>
+					<p:selectOneRadio id="tipo" styleClass="meu-radio" required="true">
+						<f:selectItem itemLabel="Física" itemValue="Fisica" />
+						<f:selectItem itemLabel="Juridica" itemValue="Juridica" />
+					</p:selectOneRadio>
+				</h:panelGroup>
+
+				<p:outputLabel value="CNPJ" for="cnpj" />
+				<p:inputText id="cnpj" size="20" maxlength="30" />
+
+				<p:outputLabel value="E-mail" for="email" />
+				<p:inputText id="email" size="40" maxlength="60" />
+			</p:panelGrid>
+
+			<p:commandButton value="Adicionar endereço" style="margin-top: 20px"
+				onclick="PF('adicionarEnderecoDialog').show(); return false" />
+
+			<p:dialog header="Inclusão de endereço"
+				widgetVar="adicionarEnderecoDialog" modal="true" resizable="false">
+				<h:panelGroup id="inclusaoPanel">
+					<p:messages autoUpdate="true" />
+
+					<h:panelGrid columns="2">
+						<p:outputLabel value="Logradouro" />
+						<p:inputText size="35" required="true"
+							requiredMessage="Nome do Usuário é obrigatório." />
+
+						<p:outputLabel value="Número" />
+						<p:inputText size="5" required="true"
+							requiredMessage="Nome do Usuário é obrigatório." />
+
+						<p:outputLabel value="Complemento" />
+						<p:inputText required="true"
+							requiredMessage="Nome do Usuário é obrigatório." />
+
+						<p:outputLabel value="CEP" />
+						<p:inputText size="15" required="true"
+							requiredMessage="Telefone do Usuário é obrigatório." />
+
+						<p:outputLabel value="Cidade" />
+						<h:panelGroup>
+							<p:inputText required="true"
+								requiredMessage="Nome do Usuário é obrigatório." />
+
+							<p:outputLabel value="UF" style="margin-left: 20px" />
+							<p:inputText required="true" size="2"
+								requiredMessage="Nome do Usuário é obrigatório." />
+						</h:panelGroup>
+						<p:spacer />
+						<p:commandButton value="Incluir" style="margin-top: 20px" />
+
+					</h:panelGrid>
+
+
+				</h:panelGroup>
+			</p:dialog>
+
+			<p:dataTable id="pedidosTable"
+				value="#{pesquisaUsuariosBean.usuariosFiltrados}" var="usuario"
+				style="margin-top: 20px" emptyMessage="Nenhum usuário encontrado."
+				rows="3" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+
+				<p:column headerText="Logradouro" style="text-align: left">
+					<h:outputText value="Rua das Pedras Grandes Azuis" />
+				</p:column>
+				<p:column headerText="Número" style="text-align: left; width: 80px">
+					<h:outputText value="1234" />
+				</p:column>
+				<p:column headerText="Complemento"
+					style="text-align: left; width: 200px">
+					<h:outputText value="Ap 1022" />
+				</p:column>
+				<p:column headerText="CEP" style="text-align: left; width: 80px">
+					<h:outputText value="38499-533" />
+				</p:column>
+				<p:column headerText="Cidade/UF"
+					style="text-align: left; width: 100px">
+					<h:outputText value="Uberlândia/MG" />
+				</p:column>
+				<p:column style="text-align: center; width: 70px">
+					<p:button icon="ui-icon-pencil" title="Editar" />
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="PF('confirmacao').show()" />
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog header="Exclusão de endereço"
+				message="Tem certeza que deseja excluir o endereço"
+				widgetVar="confirmacao">
+				<p:button value="Não"
+					onclick="PF('confirmacao').hide(); return false;" />
+				<p:commandButton value="Sim"
+					oncomplete="PF('confirmacao').hide(); return false;" />
+			</p:confirmDialog>
+
+		</h:form>
 	</ui:define>
 </ui:composition>

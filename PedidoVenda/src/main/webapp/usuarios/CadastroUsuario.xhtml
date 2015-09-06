@@ -8,47 +8,61 @@
 	<ui:define name="titulo">Novo usuario</ui:define>
 
 	<ui:define name="corpo">
-		<h1>Novo Usuario</h1>
-		
-		<p:toolbar style="margin-top: 20px">
-			<p:toolbarGroup>
-				<p:button value="Novo" outcome="/usuarios/CadastroUsuario"/>
-				<p:commandButton value="Salvar" id="botaoSalvar"/>
-			</p:toolbarGroup>
-			<p:toolbarGroup align="right">
-				<p:button value="Pesquisa" outcome="/usuarios/PesquisaUsuarios"/>
-			</p:toolbarGroup>
-		</p:toolbar>
-		
-		<p:panelGrid columns="2" columnClasses="rotulo, campo" id="painel" style="width: 100%; margin-top: 20px">
-			
-			<p:outputLabel value="Nome" for="nome"/>
-			<p:inputText id="nome" size="50" maxlength="80"/>
-			
-			<p:outputLabel value="E-mail" for="email"/>
-			<p:inputText id="email" size="50" maxlength="60"/>
-			
-			<p:outputLabel value="Senha" for="senha"/>
-			<p:password id="senha"/>
-			
-			<p:selectOneMenu>
-				<f:selectItem itemLabel="Administradores" />
-			</p:selectOneMenu>
-			<p:commandButton value="Adicionar grupo"/>
-			
-		</p:panelGrid>
-		
-		<p:dataTable id="pedidosTable" value="#{pesquisaUsuariosBean.usuariosFiltrados}" var="usuario"
-	    		style="margin-top: 20px" emptyMessage="Nenhum grupo encontrado."
-	    		rows="3" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
-	    	
-	    		<p:column headerText="Grupo" style="text-align: left">
-	    			<h:outputText value="Auxiliares"/>
-	    		</p:column>	    		
-	    		<p:column style="text-align: center; width: 70px">
-	    			<p:commandButton icon="ui-icon-trash" title="Excluir"/>    			
-	    		</p:column>
-	    	</p:dataTable>
-		
+		<h:form>
+			<h1>Novo Usuario</h1>
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/usuarios/CadastroUsuario" />
+					<p:commandButton value="Salvar" id="botaoSalvar" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/usuarios/PesquisaUsuarios" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" columnClasses="rotulo, campo" id="painel"
+				style="width: 100%; margin-top: 20px">
+
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" size="50" maxlength="80" />
+
+				<p:outputLabel value="E-mail" for="email" />
+				<p:inputText id="email" size="50" maxlength="60" />
+
+				<p:outputLabel value="Senha" for="senha" />
+				<p:password id="senha" />
+
+				<p:selectOneMenu>
+					<f:selectItem itemLabel="Administradores" />
+				</p:selectOneMenu>
+				<p:commandButton value="Adicionar grupo" />
+
+			</p:panelGrid>
+
+			<p:dataTable id="pedidosTable"
+				value="#{pesquisaUsuariosBean.usuariosFiltrados}" var="usuario"
+				style="margin-top: 20px" emptyMessage="Nenhum grupo encontrado."
+				rows="3" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+
+				<p:column headerText="Grupo" style="text-align: left">
+					<h:outputText value="Auxiliares" />
+				</p:column>
+				<p:column style="text-align: center; width: 70px">
+					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="PF('confirmacao').show()" />
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog header="Exclusão de grupo"
+				message="Tem certeza que deseja excluir o grupo"
+				widgetVar="confirmacao">
+				<p:button value="Não"
+					onclick="PF('confirmacao').hide(); return false;" />
+				<p:commandButton value="Sim"
+					oncomplete="PF('confirmacao').hide(); return false;" />
+			</p:confirmDialog>
+
+		</h:form>
 	</ui:define>
 </ui:composition>

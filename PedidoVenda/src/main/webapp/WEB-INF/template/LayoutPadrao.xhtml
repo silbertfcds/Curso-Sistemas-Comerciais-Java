@@ -26,11 +26,33 @@
  		</p:ajaxStatus>
  		
  		<header> 
- 			<div> 
- 				<h:link> 
+ 			<div style="float: left"> 
+ 				<h:link outcome="/Home"> 
  					<h:graphicImage library="images" name="logo-algaworks.png" /> 
  				</h:link> 
  			</div> 
+ 			<div style="float: right; margin-right: 110px">
+ 				<span style="float: left; height: 30px; line-height: 30px; margin-right: 60px"> Olá Usuário</span>
+ 				
+ 				<h:form style="display: inline-block">
+ 					<p:menubar styleClass="menu-sistema">
+ 						<p:submenu label="Cadastros">
+ 							<p:menuitem value="Clientes" outcome="/clientes/CadastroCliente"/>
+ 							<p:menuitem value="Usuários" outcome="/usuarios/CadastroUsuario"/>
+ 							<p:separator/>
+ 							<p:menuitem value="Categorias"/>
+ 							<p:menuitem value="Produtos" outcome="/produtos/CadastroProduto"/>
+ 						</p:submenu>
+ 						
+	 					<p:submenu label="Pedidos">
+	 						<p:menuitem value="Novo pedido" outcome="/pedidos/CadastroPedido"/>
+	 						<p:menuitem value="Pesquisa" outcome="/pedidos/PesquisaPedidos"/>
+	 					</p:submenu>
+ 						<p:menuitem value="Sair"/>
+ 					</p:menubar>
+ 				</h:form>
+ 			</div>
+ 			<div style="clear: both"></div>
  		</header> 
  	
  	 
