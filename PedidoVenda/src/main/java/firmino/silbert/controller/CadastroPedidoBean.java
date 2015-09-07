@@ -2,11 +2,11 @@ package firmino.silbert.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 
-@ManagedBean
-@RequestScoped
+import javax.inject.Named;
+
+@Named
+@javax.enterprise.context.RequestScoped
 public class CadastroPedidoBean {
 
 	private List<Integer> itens;

@@ -3,11 +3,10 @@ package firmino.silbert.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Named;
 
-@ManagedBean
-@RequestScoped
+@Named
+@javax.enterprise.context.RequestScoped
 public class PesquisaProdutosBean {
 
 	private List<Integer> produtosFiltrados;
