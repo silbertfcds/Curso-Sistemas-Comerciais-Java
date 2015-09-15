@@ -1,27 +1,38 @@
 package firmino.silbert.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import firmino.silbert.model.Produto;
+import firmino.silbert.repository.Produtos;
+import firmino.silbert.repository.filter.ProdutoFilter;
+
 @Named
-@javax.enterprise.context.RequestScoped
+@ViewScoped
 public class PesquisaProdutosBean {
 
-	private List<Integer> produtosFiltrados;
+	private ProdutoFilter filtro;
+	private List<Produto> produtosFiltrados;
+	@Inject
+	private Produtos produtos;
+	
 
 	public PesquisaProdutosBean() {
-		produtosFiltrados = new ArrayList<>();
-		for(int i=0; i<50; i++){
-			produtosFiltrados.add(i);
-		}
+		filtro = new ProdutoFilter();
 	}
-
-	public List<Integer> getProdutosFiltrados() {
+	public void pesquisar(){
+		produtosFiltrados = produtos.filtrar(filtro);
+	}
+	public List<Produto> getProdutosFiltrados() {
 		return produtosFiltrados;
 	}
-	
+
+	public ProdutoFilter getFiltro() {
+		return filtro;
+	}
 	
 	
 }

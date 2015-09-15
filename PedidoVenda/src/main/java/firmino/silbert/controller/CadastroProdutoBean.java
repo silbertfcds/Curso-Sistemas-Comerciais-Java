@@ -1,6 +1,7 @@
 package firmino.silbert.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.view.ViewScoped;
@@ -11,6 +12,8 @@ import javax.validation.constraints.NotNull;
 import firmino.silbert.model.Categoria;
 import firmino.silbert.model.Produto;
 import firmino.silbert.repository.Categorias;
+import firmino.silbert.service.CadastroProdutoService;
+import firmino.silbert.util.jsf.FacesUtil;
 
 @Named
 @ViewScoped
@@ -18,36 +21,68 @@ public class CadastroProdutoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Produto produto;
-
 	@Inject
 	private Categorias categorias;
 	
+	@Inject
+	private CadastroProdutoService cadastroProdutoService;
+	
+	private Produto produto;
 	private Categoria categoriaPai;
 	
 	private List<Categoria> categoriasRaizes;
+	private List<Categoria> subcategorias;
 	
-	public CadastroProdutoBean(){
-		
-		produto = new Produto();
+	public CadastroProdutoBean() {
+		limpar();
 	}
 	
-	public void salvar(){
-		System.out.println("Categoria Pai selecionada: "+categoriaPai.getDescricao());
+	public void inicializar() {
+		if (FacesUtil.isNotPostback()) {
+			categoriasRaizes = categorias.raizes();
+			
+			if (this.categoriaPai != null) {
+				carregarSubcategorias();
+			}
+		}
+	}
+	
+	public void carregarSubcategorias() {
+		subcategorias = categorias.subcategoriasDe(categoriaPai);
+	}
+	
+	private void limpar() {
+		produto = new Produto();
+		categoriaPai = null;
+		subcategorias = new ArrayList<>();
+	}
+	
+	public void salvar() {
+		this.produto = cadastroProdutoService.salvar(this.produto);
+		limpar();
+		
+		FacesUtil.addInfoMessage("Produto salvo com sucesso!");
 	}
 
 	public Produto getProduto() {
+		if(produto == null){
+			produto = new Produto();
+		}
 		return produto;
 	}
-
-	public void inicializar() {
-		System.out.println("Inicializando...");
+	
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 		
-		categoriasRaizes = categorias.raizes();
+		if (this.produto != null) {
+			this.categoriaPai = this.produto.getCategoria().getCategoriaPai();
+		}
 	}
+
 	public List<Categoria> getCategoriasRaizes() {
 		return categoriasRaizes;
 	}
+
 	@NotNull
 	public Categoria getCategoriaPai() {
 		return categoriaPai;
@@ -56,6 +91,9 @@ public class CadastroProdutoBean implements Serializable {
 	public void setCategoriaPai(Categoria categoriaPai) {
 		this.categoriaPai = categoriaPai;
 	}
-	
+
+	public List<Categoria> getSubcategorias() {
+		return subcategorias;
+	}
 	
 }
