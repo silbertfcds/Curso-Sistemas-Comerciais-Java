@@ -1,5 +1,17 @@
 package firmino.silbert.model;
 
 public enum TipoPessoa {
-	FISICA, JURIDICA
+	
+	FISICA("Fisica"), 
+	JURIDICA("Juridica");
+	
+	private String descricao;
+	
+	TipoPessoa(String descricao){
+		this.descricao = descricao;
+	}
+	
+	public String getDescricao(){
+		return descricao;
+	}
 }

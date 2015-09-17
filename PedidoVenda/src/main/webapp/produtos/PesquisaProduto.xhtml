@@ -8,7 +8,7 @@
 	<ui:define name="titulo">Pesquisa produto</ui:define>
 
 	<ui:define name="corpo">
-		<h:form>
+		<h:form id="frmPesquisa">
 			<h1>Pesquisa Produto</h1>
 			<p:messages autoUpdate="true" closable="true" />
 			<p:toolbar style="margin-top: 20px">
@@ -55,20 +55,20 @@
 						<f:param name="produto" value="#{produto.id}"/>
 					</p:button>
 					<p:commandButton icon="ui-icon-trash" title="Excluir"
-						oncomplete="PF('confirmacao').show()">
-						
+						oncomplete="PF('confirmacao').show()" process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener value="#{produto}" target="#{pesquisaProdutosBean.produtoSelecionado}"/>
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 
 			<p:confirmDialog header="Exclusão de produto"
-				message="Tem certeza que deseja excluir o produto?"
-				widgetVar="confirmacao">
+				message="Tem certeza que deseja excluir o produto #{pesquisaProdutosBean.produtoSelecionado.sku}?"
+				widgetVar="confirmacao" id="confirmacaoExclusaoDialog">
 				<p:button value="Não"
 					onclick="PF('confirmacao').hide(); return false;" />
 				<p:commandButton value="Sim"
 					oncomplete="PF('confirmacao').hide(); return false;"
-					 />			
+					 action="#{pesquisaProdutosBean.excluir}" process="@this" update=":frmPesquisa:produtosTable"/>			
 			</p:confirmDialog>
 
 		</h:form>

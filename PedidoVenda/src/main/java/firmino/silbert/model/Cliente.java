@@ -78,7 +78,7 @@ public class Cliente implements Serializable {
 	public void setTipoPessoa(TipoPessoa tipoPessoa) {
 		this.tipoPessoa = tipoPessoa;
 	}
-	@OneToMany(mappedBy = "cliente",  cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cliente",  cascade = CascadeType.ALL, orphanRemoval=true)
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}

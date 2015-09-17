@@ -15,37 +15,41 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import firmino.silbert.model.Produto;
-import firmino.silbert.repository.filter.ProdutoFilter;
+import firmino.silbert.model.Cliente;
+import firmino.silbert.repository.filter.ClienteFilter;
 import firmino.silbert.service.NegocioException;
 import firmino.silbert.util.jpa.transactional;
 
-public class Produtos implements Serializable {
+public class Clientes implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private EntityManager manager;
-
-	public Produto guardar(Produto produto) {
-		produto = manager.merge(produto);
-		return produto;
+	
+	public Cliente guardar(Cliente cliente){
+		return manager.merge(cliente);
 	}
-
+	
+	public Cliente porId(Long id){
+		return manager.find(Cliente.class, id);
+	}
+	
 	@transactional
-	public void remover(Produto produto){
+	public void remover(Cliente cliente){
 		try{
-			produto = porId(produto.getId());
-			manager.remove(produto);
+			cliente = porId(cliente.getId());
+			manager.remove(cliente);
 			manager.flush();
 		}catch(PersistenceException e){
-			throw new NegocioException("Produto não pode ser excluído.");
+			throw new NegocioException("Cliente não pode ser excluído.");
 		}
 	}
-	public Produto porSku(String sku) {
+	
+	public Cliente porCpfCnpj(String documentoReceitaFederal) {
 		try{
-			return manager.createQuery("from Produto where upper(sku) = :sku", Produto.class).
-					setParameter("sku", sku.toUpperCase()).
+			return manager.createQuery("from Cliente where documentoReceitaFederal = :documentoReceitaFederal", Cliente.class).
+					setParameter("documentoReceitaFederal", documentoReceitaFederal).
 					getSingleResult();
 		}catch(NoResultException e){
 			return null;
@@ -53,12 +57,13 @@ public class Produtos implements Serializable {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Produto> filtrar(ProdutoFilter filtro){
+	public List<Cliente> filtrar(ClienteFilter filtro){
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(Produto.class);
+		Criteria criteria = session.createCriteria(Cliente.class);
 		
-		if(StringUtils.isNotBlank(filtro.getSku())){
-			criteria.add(Restrictions.eq("sku", filtro.getSku()));
+		if(StringUtils.isNotBlank(filtro.getDocumentoReceitaFederal())){
+			criteria.add(Restrictions.ilike("documentoReceitaFederal", filtro.getDocumentoReceitaFederal(), 
+					MatchMode.ANYWHERE));
 		}
 		
 		if(StringUtils.isNotBlank(filtro.getNome())){
@@ -66,9 +71,5 @@ public class Produtos implements Serializable {
 		}
 		
 		return criteria.addOrder(Order.asc("nome")).list();
-	}
-
-	public Produto porId(Long id) {
-		return manager.find(Produto.class, id);
 	}
 }

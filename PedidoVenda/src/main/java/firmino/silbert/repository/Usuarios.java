@@ -15,37 +15,42 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import firmino.silbert.model.Produto;
-import firmino.silbert.repository.filter.ProdutoFilter;
+import firmino.silbert.model.Usuario;
+import firmino.silbert.repository.filter.UsuarioFilter;
 import firmino.silbert.service.NegocioException;
 import firmino.silbert.util.jpa.transactional;
 
-public class Produtos implements Serializable {
+public class Usuarios implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
 	private EntityManager manager;
-
-	public Produto guardar(Produto produto) {
-		produto = manager.merge(produto);
-		return produto;
+	
+	
+	public Usuario porId(Long id){
+		return manager.find(Usuario.class, id);
 	}
-
+	
+	public Usuario guardar(Usuario usuario){
+		usuario = manager.merge(usuario);
+		return usuario;
+	}
+	
 	@transactional
-	public void remover(Produto produto){
+	public void remover(Usuario usuario){
 		try{
-			produto = porId(produto.getId());
-			manager.remove(produto);
+			usuario = porId(usuario.getId());
+			manager.remove(usuario);
 			manager.flush();
 		}catch(PersistenceException e){
-			throw new NegocioException("Produto não pode ser excluído.");
+			throw new NegocioException("Usuario não pode ser excluído, pois tem grupos adicionados.");
 		}
 	}
-	public Produto porSku(String sku) {
+	public Usuario porEmail(String email) {
 		try{
-			return manager.createQuery("from Produto where upper(sku) = :sku", Produto.class).
-					setParameter("sku", sku.toUpperCase()).
+			return manager.createQuery("from Usuario where lower(email) = :email", Usuario.class).
+					setParameter("email", email.toLowerCase()).
 					getSingleResult();
 		}catch(NoResultException e){
 			return null;
@@ -53,22 +58,14 @@ public class Produtos implements Serializable {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Produto> filtrar(ProdutoFilter filtro){
+	public List<Usuario> filtrados(UsuarioFilter filtro) {
 		Session session = manager.unwrap(Session.class);
-		Criteria criteria = session.createCriteria(Produto.class);
-		
-		if(StringUtils.isNotBlank(filtro.getSku())){
-			criteria.add(Restrictions.eq("sku", filtro.getSku()));
-		}
+		Criteria criteria = session.createCriteria(Usuario.class);
 		
 		if(StringUtils.isNotBlank(filtro.getNome())){
 			criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
 		}
 		
 		return criteria.addOrder(Order.asc("nome")).list();
-	}
-
-	public Produto porId(Long id) {
-		return manager.find(Produto.class, id);
 	}
 }

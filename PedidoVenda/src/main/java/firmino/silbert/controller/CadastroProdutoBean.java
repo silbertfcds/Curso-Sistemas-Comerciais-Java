@@ -96,4 +96,11 @@ public class CadastroProdutoBean implements Serializable {
 		return subcategorias;
 	}
 	
+	public boolean isEditando() {
+        boolean resultado = false;
+        if (this.produto != null) {
+            resultado = this.produto.getId() != null;
+        }
+        return resultado;
+    }
 }
