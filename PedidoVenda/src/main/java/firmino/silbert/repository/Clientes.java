@@ -56,6 +56,13 @@ public class Clientes implements Serializable {
 		}
 	}
 	
+	public List<Cliente> porNome(String nome) {
+		return this.manager.createQuery("from Cliente " +
+				"where upper(nome) like :nome", Cliente.class)
+				.setParameter("nome", nome.toUpperCase() + "%")
+				.getResultList();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Cliente> filtrar(ClienteFilter filtro){
 		Session session = manager.unwrap(Session.class);

@@ -12,6 +12,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -32,10 +34,10 @@ public class Pedido implements Serializable {
 	private Date dataCriacao;
 	private String observacao;
 	private Date dataEntrega;
-	private BigDecimal valorFrete;
-	private BigDecimal valorDesconto;
-	private BigDecimal valorTotal;
-	private StatusPedido status;
+	private BigDecimal valorFrete = BigDecimal.ZERO;
+	private BigDecimal valorDesconto = BigDecimal.ZERO;
+	private BigDecimal valorTotal = BigDecimal.ZERO;
+	private StatusPedido status = StatusPedido.ORCAMENTO;
 	private FormaPagamento formaPagamento;
 	private Usuario vendedor;
 	private Cliente cliente;
@@ -160,7 +162,7 @@ public class Pedido implements Serializable {
 		this.enderecoEntrega = enderecoEntrega;
 	}
 	
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	public List<ItemPedido> getItens() {
 		return itens;
 	}
@@ -169,6 +171,15 @@ public class Pedido implements Serializable {
 		this.itens = itens;
 	}
 
+	@Transient
+	public boolean isNovo(){
+		return getId() == null;
+	}
+	
+	@Transient
+	public boolean isExistente(){
+		return !isNovo();
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -192,6 +203,62 @@ public class Pedido implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	@Transient
+	public BigDecimal getValorSubtotal() {
+		return this.getValorTotal().subtract(this.getValorFrete()).add(this.getValorDesconto());
+	}
+	
+	public void recalcularValorTotal() {
+		BigDecimal total = BigDecimal.ZERO;
+		
+		total = total.add(this.getValorFrete()).subtract(this.getValorDesconto());
+		
+		for (ItemPedido item : this.getItens()) {
+			if (item.getProduto() != null && item.getProduto().getId() != null) {
+				total = total.add(item.getValorTotal());
+			}
+		}
+		
+		this.setValorTotal(total);
+	}
+
+	public void adicionarItemVazio() {
+		if (this.isOrcamento()) {
+			Produto produto = new Produto();
+			
+			ItemPedido item = new ItemPedido();
+			item.setProduto(produto);
+			item.setPedido(this);
+			
+			this.getItens().add(0, item);
+		}
+		
+	}
+
+	@Transient
+	public boolean isOrcamento() {
+		return StatusPedido.ORCAMENTO.equals(this.getStatus());
+	}
+
+	public void removerItemVazio() {
+		ItemPedido primeiroItem = getItens().get(0);
+		
+		if(primeiroItem !=null && primeiroItem.getProduto().getId()==null){
+			getItens().remove(0);
+		}
+		
+	}
+
+	@Transient
+	public boolean valorTotalNegativo() {
+		return getValorTotal().compareTo(BigDecimal.ZERO)<0;
+	}
+
+	@Transient
+	public boolean isEmitido() {
+		return StatusPedido.EMITIDO.equals(getStatus());
 	}
 	
 }

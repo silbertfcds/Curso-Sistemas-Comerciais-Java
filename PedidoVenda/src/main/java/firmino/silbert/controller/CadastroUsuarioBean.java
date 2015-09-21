@@ -49,8 +49,24 @@ public class CadastroUsuarioBean implements Serializable {
 	        }
 		
 	}
-	public void adicionarGrupo(){		
-		usuario.getGrupos().add(novoGrupo);
+	public void adicionarGrupo(){
+		
+		if(usuario.getGrupos().contains(novoGrupo)){
+			FacesUtil.addErrorMessage("Grupo já adicionado.");
+		}else{
+			usuario.getGrupos().add(novoGrupo);
+		}
+		
+		
+		
+		/*
+		if(usuario.getGrupos().indexOf(novoGrupo)<0){
+			usuario.getGrupos().add(novoGrupo);
+		}else{
+			 FacesUtil.addErrorMessage("Grupo já adicionado.");
+		}*/
+		
+	
 		System.out.println(novoGrupo.getNome());
 	
 	}

@@ -57,6 +57,12 @@ public class Usuarios implements Serializable {
 		}
 	}
 	
+	public List<Usuario> vendedores() {
+		// TODO filtrar apenas vendedores (por um grupo específico)
+		return this.manager.createQuery("from Usuario", Usuario.class)
+				.getResultList();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Usuario> filtrados(UsuarioFilter filtro) {
 		Session session = manager.unwrap(Session.class);

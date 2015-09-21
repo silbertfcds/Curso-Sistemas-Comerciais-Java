@@ -24,6 +24,11 @@ public class Pedidos implements Serializable{
 	@Inject
 	private EntityManager manager;
 
+	
+	public Pedido guardar(Pedido pedido){
+		return manager.merge(pedido);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Pedido> filtrados(PedidoFilter filtro) {
 		Session session = this.manager.unwrap(Session.class);
@@ -68,6 +73,11 @@ public class Pedidos implements Serializable{
 		}
 		
 		return criteria.addOrder(Order.asc("id")).list();
+	}
+
+	public Pedido porId(Long id) {
+		
+		return manager.find(Pedido.class, id);
 	}
 
 }
