@@ -110,3 +110,8 @@ h1 {
     padding: 0px !important;
 }
 /* Customiza TabView - fim */
+
+
+.ui-state-disabled {
+	opacity: .80 !important;
+}

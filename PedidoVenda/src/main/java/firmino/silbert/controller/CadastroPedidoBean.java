@@ -3,6 +3,8 @@ package firmino.silbert.controller;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Produces;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,8 +30,11 @@ import firmino.silbert.validation.SKU;
 public class CadastroPedidoBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	@Produces
+	@PedidoEdicao
 	private Pedido pedido;
+	
 	private Produto produtoLinhaEditavel;
 	private String sku;
 
@@ -100,6 +105,10 @@ public class CadastroPedidoBean implements Serializable {
 		}
 	}
 
+	public void pedidoAlterado(@Observes PedidoAlteradoEvent event) {
+		this.pedido = event.getPedido();
+	}
+	
 	private boolean existeItemComProduto(Produto produto) {
 		boolean existeItem = false;
 

@@ -260,5 +260,44 @@ public class Pedido implements Serializable {
 	public boolean isEmitido() {
 		return StatusPedido.EMITIDO.equals(getStatus());
 	}
+
+	@Transient
+	public boolean isNaoEmissivel() {
+		return !this.isEmissivel();
+	}
 	
+	@Transient
+	public boolean isEmissivel() {
+		return this.isExistente() && this.isOrcamento();
+	}
+
+	@Transient
+	public boolean isNaoCancelavel() {
+		return !isCancelavel();
+	}
+
+	@Transient
+	public boolean isCancelavel() {
+		return isExistente() && !isCancelado();
+	}
+
+	@Transient
+	public boolean isCancelado() {
+		return StatusPedido.CANCELADO.equals(getStatus());
+	}
+
+	@Transient
+	public boolean isNaoAlteravel() {
+		return !isAlteravel();
+	}
+
+	@Transient
+	public boolean isAlteravel() {
+		return isOrcamento();
+	}
+	
+	@Transient
+	public boolean isNaoEnviavelPorEmail(){
+		return isNovo() || isCancelado();
+	}
 }
