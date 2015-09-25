@@ -24,6 +24,8 @@
 						action="#{cadastroClienteBean.salvar}" update="@form" process="@this :frmCliente:painelCliente"/>
 				</p:toolbarGroup>
 				<p:toolbarGroup align="right">
+					<p:commandButton value="Enviar por e-mail" action="#{envioClienteEmailBean.enviarDadosCliente}"
+  						process="@this" disabled="#{cadastroClienteBean.cliente.naoEnviavelPorEmail}"/>
 					<p:button value="Pesquisa" outcome="/clientes/PesquisaCliente" />
 				</p:toolbarGroup>
 			</p:toolbar>
