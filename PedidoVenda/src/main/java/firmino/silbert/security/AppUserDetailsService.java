@@ -32,6 +32,7 @@ public class AppUserDetailsService implements UserDetailsService {
 		return user;
 	}
 
+	/** Preenche a lista de grupos do usuário logado */  
 	private Collection<? extends GrantedAuthority> getGrupos(Usuario usuario) {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		
