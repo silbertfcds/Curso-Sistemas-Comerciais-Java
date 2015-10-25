@@ -32,9 +32,14 @@
 
 		</plugins>
 	</build>
-	
-	<dependencies>
 
+	<dependencies>
+		<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>sqljdbc4</artifactId>
+		    <version>4.0</version>
+		    <scope>compile</scope>
+  		</dependency>
 		<!-- Implementacao do Bean Validation -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -63,7 +68,6 @@
 			<version>5.1.34</version>
 			<scope>compile</scope>
 		</dependency>
-
 		<!-- Weld (implementação do CDI) -->
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
@@ -134,8 +138,8 @@
 			<version>3.1</version>
 			<scope>compile</scope>
 		</dependency>
-		
-		<!-- Abstração para envio de e-mails -->		
+
+		<!-- Abstração para envio de e-mails -->
 		<dependency>
 			<groupId>com.outjected</groupId>
 			<artifactId>simple-email</artifactId>
@@ -150,7 +154,7 @@
 			<version>1.4.7</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- Usamos para templates de emails -->
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
@@ -158,7 +162,7 @@
 			<version>1.7</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- Usamos para formatar números em templates -->
 		<dependency>
 			<groupId>velocity-tools</groupId>
@@ -166,25 +170,25 @@
 			<version>1.1</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- Spring Security (autenticação e autorização) -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>3.1.4.RELEASE</version>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
 			<version>3.1.4.RELEASE</version>
-		</dependency> 
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>3.1.4.RELEASE</version>
 		</dependency>
-		
-		
+
+
 	</dependencies>
 
 </project>
