@@ -111,8 +111,8 @@ public class Pedidos implements Serializable{
 		// group by date(data_criacao)
 		
 		criteria.setProjection(Projections.projectionList()
-				.add(Projections.sqlGroupProjection("date(data_criacao) as data", 
-						"date(data_criacao)", new String[] { "data" }, 
+				.add(Projections.sqlGroupProjection("data_criacao as data", 
+						"data_criacao", new String[] { "data" }, 
 						new Type[] { StandardBasicTypes.DATE } ))
 				.add(Projections.sum("valorTotal").as("valor"))
 			)
