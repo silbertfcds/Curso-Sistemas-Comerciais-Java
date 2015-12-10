@@ -43,13 +43,15 @@ public class CadastroClienteBean implements Serializable {
 			cliente.getEnderecos().add(endereco);
 			endereco.setCliente(cliente);
 			endereco = new Endereco();
+		}else{
+			endereco = new Endereco();
 		}
 	}
 	
 	public void excluirEndereco(){
 		if(endereco!=null){
 			cliente.getEnderecos().remove(endereco);
-			endereco = new Endereco();
+			//endereco = new Endereco();
 		}
 		
 	}
